@@ -1,8 +1,117 @@
+"use client";
+
+import { useState } from "react";
+
+interface ResultatApi {
+  joursTravailles: number;
+  joursFactures: number;
+  tjm: number;
+  ecartJours: number;
+  montantPotentiel: number | null;
+  coherenceFacture: boolean;
+  montantTotalHt: number;
+}
+
 export default function Home() {
+  const [craFile, setCraFile] = useState<File | null>(null);
+  const [factureFile, setFactureFile] = useState<File | null>(null);
+  const [enCours, setEnCours] = useState(false);
+  const [resultat, setResultat] = useState<ResultatApi | null>(null);
+  const [erreur, setErreur] = useState<string | null>(null);
+
+  async function handleAnalyser() {
+    if (!craFile || !factureFile) return;
+
+    setEnCours(true);
+    setErreur(null);
+    setResultat(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("cra", craFile);
+      formData.append("facture", factureFile);
+
+      const reponse = await fetch("/api/analyser", { method: "POST", body: formData });
+      const data = await reponse.json();
+
+      if (!reponse.ok) {
+        setErreur(data.error ?? "Une erreur est survenue.");
+      } else {
+        setResultat(data);
+      }
+    } catch {
+      setErreur("Une erreur est survenue pendant l'analyse.");
+    } finally {
+      setEnCours(false);
+    }
+  }
+
   return (
-    <main className="p-8">
+    <main className="mx-auto max-w-xl p-8">
       <h1 className="text-2xl font-semibold">Analyser une mission</h1>
-      <p className="mt-2 text-gray-500">Scaffold en place — le formulaire arrive à l&apos;étape 5.</p>
+
+      <div className="mt-6 space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">CRA (CSV)</label>
+          <input
+            type="file"
+            accept=".csv"
+            onChange={(e) => setCraFile(e.target.files?.[0] ?? null)}
+            className="mt-1 block w-full text-sm"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Facture (PDF)</label>
+          <input
+            type="file"
+            accept=".pdf"
+            onChange={(e) => setFactureFile(e.target.files?.[0] ?? null)}
+            className="mt-1 block w-full text-sm"
+          />
+        </div>
+
+        <button
+          onClick={handleAnalyser}
+          disabled={!craFile || !factureFile || enCours}
+          className="rounded bg-gray-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-40"
+        >
+          {enCours ? "Analyse en cours..." : "Analyser"}
+        </button>
+      </div>
+
+      {erreur && <p className="mt-6 text-sm text-red-600">{erreur}</p>}
+
+      {resultat && (
+        <div className="mt-6 rounded border border-gray-200 p-4">
+          {resultat.ecartJours > 0 ? (
+            <div>
+              <p className="font-medium">
+                ⚠️ {resultat.ecartJours} jour(s) potentiellement non facturé(s)
+              </p>
+              <p className="mt-1 text-gray-700">
+                Montant potentiel à vérifier : {resultat.montantPotentiel?.toLocaleString("fr-FR")} €
+              </p>
+            </div>
+          ) : (
+            <p>Aucun écart détecté entre le CRA et la facture pour cette mission.</p>
+          )}
+
+          <div className="mt-4 space-y-1 text-sm text-gray-500">
+            <p>CRA : {resultat.joursTravailles} jours travaillés</p>
+            <p>
+              Facture : {resultat.joursFactures} jours facturés × {resultat.tjm} €/jour
+            </p>
+          </div>
+
+          {!resultat.coherenceFacture && (
+            <p className="mt-4 text-sm text-amber-600">
+              ⚠️ Extraction à vérifier : le montant total HT de la facture ne correspond pas exactement
+              à jours × TJM.
+            </p>
+          )}
+        </div>
+      )}
     </main>
   );
 }

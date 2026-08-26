@@ -1,7 +1,7 @@
 // Alias non-ambigus en priorité : "jour" seul est ambigu (peut désigner le nom du jour,
 // ex. "Lundi", dans certains CRA), donc on ne s'y résout qu'en dernier recours.
 const ALIAS_PRIORITAIRES = ["jours", "nbjours", "nbjour", "nombredejours", "joursouvres", "days", "jrs"];
-const ALIAS_SECONDAIRES = ["jour", "jr"];
+const ALIAS_SECONDAIRES = ["jour", "jr", "j", "d"];
 
 function normaliser(texte: string): string {
   return texte.trim().toLowerCase().replace(/[\s_-]+/g, "");

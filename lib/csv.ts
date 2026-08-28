@@ -33,12 +33,18 @@ function detecterSeparateur(ligneEntete: string): string {
   return nbPointVirgule > nbVirgule ? ";" : ",";
 }
 
+function estLigneTotal(cells: string[]): boolean {
+  return cells.some((cell) => normaliser(cell) === "total");
+}
+
 function parseLignes(csvContent: string): { columns: string[]; rows: string[][] } {
   const lines = csvContent.trim().split(/\r?\n/).filter((line) => line.trim().length > 0);
   const [header, ...rawRows] = lines;
   const separateur = detecterSeparateur(header);
   const columns = header.split(separateur).map((c) => c.trim());
-  const rows = rawRows.map((row) => row.split(separateur));
+  // Certains exports CRA ajoutent une ligne récapitulative ("TOTAL") en bas du fichier,
+  // qui contiendrait déjà la somme et fausserait le calcul si on l'incluait.
+  const rows = rawRows.map((row) => row.split(separateur)).filter((cells) => !estLigneTotal(cells));
   return { columns, rows };
 }
 

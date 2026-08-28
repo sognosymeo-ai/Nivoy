@@ -102,7 +102,9 @@ export default function Home() {
               </p>
             </div>
           ) : (
-            <p>Aucun écart détecté entre le CRA et la facture pour cette mission.</p>
+            !resultat.ecartMontant?.anomalieDetectee && (
+              <p>Aucun écart détecté entre le CRA et la facture pour cette mission.</p>
+            )
           )}
 
           <div className="mt-4 space-y-1 text-sm text-gray-500">

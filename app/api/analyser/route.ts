@@ -2,12 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import { parseJoursTravailles, parseMontantCra } from "@/lib/csv";
 import { extraireDonneesFacture } from "@/lib/facture";
 import { analyserEcart, analyserEcartMontant, verifierCoherenceFacture } from "@/lib/calcul";
+import { createClient } from "@/lib/supabase/server";
 
 const TAILLE_MAX_CSV = 5 * 1024 * 1024; // 5 Mo
 const TAILLE_MAX_PDF = 15 * 1024 * 1024; // 15 Mo
 
 export async function POST(request: NextRequest) {
   try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: "Non authentifié." }, { status: 401 });
+    }
+
     const formData = await request.formData();
     const craFile = formData.get("cra");
     const factureFile = formData.get("facture");

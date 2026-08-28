@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 interface EcartMontant {
   montantCra: number;
@@ -26,6 +27,20 @@ export default function Home() {
   const [enCours, setEnCours] = useState(false);
   const [resultat, setResultat] = useState<ResultatApi | null>(null);
   const [erreur, setErreur] = useState<string | null>(null);
+  const [emailUtilisateur, setEmailUtilisateur] = useState<string | null>(null);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      setEmailUtilisateur(data.user?.email ?? null);
+    });
+  }, []);
+
+  async function handleDeconnexion() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    window.location.href = "/login";
+  }
 
   async function handleAnalyser() {
     if (!craFile || !factureFile) return;
@@ -56,7 +71,17 @@ export default function Home() {
 
   return (
     <main className="mx-auto max-w-xl p-8">
-      <h1 className="text-2xl font-semibold">Analyser une mission</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold">Analyser une mission</h1>
+        {emailUtilisateur && (
+          <div className="flex items-center gap-3 text-sm text-gray-500">
+            <span>{emailUtilisateur}</span>
+            <button onClick={handleDeconnexion} className="underline">
+              Se déconnecter
+            </button>
+          </div>
+        )}
+      </div>
 
       <div className="mt-6 space-y-4">
         <div>

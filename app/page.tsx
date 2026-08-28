@@ -90,51 +90,64 @@ export default function Home() {
 
       {erreur && <p className="mt-6 text-sm text-red-600">{erreur}</p>}
 
-      {resultat && (
-        <div className="mt-6 rounded border border-gray-200 p-4">
-          {resultat.ecartJours > 0 ? (
-            <div>
-              <p className="font-medium">
-                ⚠️ {resultat.ecartJours} jour(s) potentiellement non facturé(s)
-              </p>
-              <p className="mt-1 text-gray-700">
-                Montant potentiel à vérifier : {resultat.montantPotentiel?.toLocaleString("fr-FR")} €
-              </p>
-            </div>
-          ) : (
-            !resultat.ecartMontant?.anomalieDetectee && (
-              <p>Aucun écart détecté entre le CRA et la facture pour cette mission.</p>
-            )
-          )}
+      {resultat && (() => {
+        const ecartJoursDetecte = resultat.ecartJours > 0;
+        const ecartMontantDetecte = resultat.ecartMontant?.anomalieDetectee ?? false;
+        const aucunEcart = !ecartJoursDetecte && !ecartMontantDetecte;
 
-          <div className="mt-4 space-y-1 text-sm text-gray-500">
-            <p>CRA : {resultat.joursTravailles} jours travaillés</p>
-            <p>
-              Facture : {resultat.joursFactures} jours facturés × {resultat.tjm} €/jour
-            </p>
-          </div>
-
-          {!resultat.coherenceFacture && (
-            <p className="mt-4 text-sm text-amber-600">
-              ⚠️ Extraction à vérifier : le montant total HT de la facture ne correspond pas exactement
-              à jours × TJM.
-            </p>
-          )}
-
-          {resultat.ecartMontant?.anomalieDetectee && (
-            <div className="mt-4 border-t border-gray-200 pt-4">
-              <p className="font-medium">
-                ⚠️ Écart de chiffre d&apos;affaires potentiel à vérifier :{" "}
-                {Math.abs(resultat.ecartMontant.ecartMontant).toLocaleString("fr-FR")} €
-              </p>
-              <div className="mt-2 space-y-1 text-sm text-gray-500">
-                <p>CRA : {resultat.ecartMontant.montantCra.toLocaleString("fr-FR")} € HT (somme des lignes)</p>
-                <p>Facture : {resultat.ecartMontant.montantFactureHt.toLocaleString("fr-FR")} € HT</p>
+        return (
+          <div className="mt-6 rounded border border-gray-200 p-4">
+            {ecartJoursDetecte && (
+              <div>
+                <p className="font-medium">
+                  ⚠️ {resultat.ecartJours} jour(s) potentiellement non facturé(s)
+                </p>
+                <p className="mt-1 text-gray-700">
+                  Montant potentiel à vérifier : {resultat.montantPotentiel?.toLocaleString("fr-FR")} €
+                </p>
+                <div className="mt-2 space-y-1 text-sm text-gray-500">
+                  <p>CRA : {resultat.joursTravailles} jours travaillés</p>
+                  <p>
+                    Facture : {resultat.joursFactures} jours facturés × {resultat.tjm} €/jour
+                  </p>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-      )}
+            )}
+
+            {ecartMontantDetecte && resultat.ecartMontant && (
+              <div className={ecartJoursDetecte ? "mt-4 border-t border-gray-200 pt-4" : ""}>
+                <p className="font-medium">
+                  ⚠️ Écart de chiffre d&apos;affaires potentiel à vérifier :{" "}
+                  {Math.abs(resultat.ecartMontant.ecartMontant).toLocaleString("fr-FR")} €
+                </p>
+                <div className="mt-2 space-y-1 text-sm text-gray-500">
+                  <p>CRA : {resultat.ecartMontant.montantCra.toLocaleString("fr-FR")} € HT (somme des lignes)</p>
+                  <p>Facture : {resultat.ecartMontant.montantFactureHt.toLocaleString("fr-FR")} € HT</p>
+                </div>
+              </div>
+            )}
+
+            {aucunEcart && (
+              <div>
+                <p>Aucun écart détecté entre le CRA et la facture pour cette mission.</p>
+                <div className="mt-2 space-y-1 text-sm text-gray-500">
+                  <p>CRA : {resultat.joursTravailles} jours travaillés</p>
+                  <p>
+                    Facture : {resultat.joursFactures} jours facturés × {resultat.tjm} €/jour
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {!resultat.coherenceFacture && (
+              <p className="mt-4 text-sm text-amber-600">
+                ⚠️ Extraction à vérifier : le montant total HT de la facture ne correspond pas exactement
+                à jours × TJM.
+              </p>
+            )}
+          </div>
+        );
+      })()}
     </main>
   );
 }

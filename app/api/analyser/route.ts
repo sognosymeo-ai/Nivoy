@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { parseJoursTravailles } from "@/lib/csv";
+import { parseJoursTravailles, parseMontantCra } from "@/lib/csv";
 import { extraireDonneesFacture } from "@/lib/facture";
-import { analyserEcart, verifierCoherenceFacture } from "@/lib/calcul";
+import { analyserEcart, analyserEcartMontant, verifierCoherenceFacture } from "@/lib/calcul";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -16,9 +16,11 @@ export async function POST(request: NextRequest) {
   }
 
   let joursTravailles: number;
+  let montantCra: number | null;
   try {
     const csvContent = await craFile.text();
     joursTravailles = parseJoursTravailles(csvContent);
+    montantCra = parseMontantCra(csvContent);
   } catch (error) {
     return NextResponse.json(
       { error: `CRA invalide : ${(error as Error).message}` },
@@ -40,6 +42,12 @@ export async function POST(request: NextRequest) {
   const { jours_factures, tjm, montant_total_ht } = donneesFacture;
   const resultat = analyserEcart(joursTravailles, jours_factures, tjm);
   const coherenceFacture = verifierCoherenceFacture(jours_factures, tjm, montant_total_ht);
+  const ecartMontant = montantCra !== null ? analyserEcartMontant(montantCra, montant_total_ht) : null;
 
-  return NextResponse.json({ ...resultat, coherenceFacture, montantTotalHt: montant_total_ht });
+  return NextResponse.json({
+    ...resultat,
+    coherenceFacture,
+    montantTotalHt: montant_total_ht,
+    ecartMontant,
+  });
 }

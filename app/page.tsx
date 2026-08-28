@@ -2,6 +2,13 @@
 
 import { useState } from "react";
 
+interface EcartMontant {
+  montantCra: number;
+  montantFactureHt: number;
+  ecartMontant: number;
+  anomalieDetectee: boolean;
+}
+
 interface ResultatApi {
   joursTravailles: number;
   joursFactures: number;
@@ -10,6 +17,7 @@ interface ResultatApi {
   montantPotentiel: number | null;
   coherenceFacture: boolean;
   montantTotalHt: number;
+  ecartMontant: EcartMontant | null;
 }
 
 export default function Home() {
@@ -109,6 +117,19 @@ export default function Home() {
               ⚠️ Extraction à vérifier : le montant total HT de la facture ne correspond pas exactement
               à jours × TJM.
             </p>
+          )}
+
+          {resultat.ecartMontant?.anomalieDetectee && (
+            <div className="mt-4 border-t border-gray-200 pt-4">
+              <p className="font-medium">
+                ⚠️ Écart de chiffre d&apos;affaires potentiel à vérifier :{" "}
+                {Math.abs(resultat.ecartMontant.ecartMontant).toLocaleString("fr-FR")} €
+              </p>
+              <div className="mt-2 space-y-1 text-sm text-gray-500">
+                <p>CRA : {resultat.ecartMontant.montantCra.toLocaleString("fr-FR")} € HT (somme des lignes)</p>
+                <p>Facture : {resultat.ecartMontant.montantFactureHt.toLocaleString("fr-FR")} € HT</p>
+              </div>
+            </div>
           )}
         </div>
       )}

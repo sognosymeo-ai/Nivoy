@@ -1,4 +1,5 @@
 import Link from "next/link";
+import IndicateurSections from "@/components/IndicateurSections";
 
 const detections = [
   {
@@ -57,6 +58,7 @@ const faq = [
 export default function Accueil() {
   return (
     <main className="bg-white text-gray-900">
+      <IndicateurSections />
       <header className="border-b border-gray-100">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <span className="text-lg font-semibold">Nivoy</span>
@@ -100,7 +102,7 @@ export default function Accueil() {
         <p className="mt-4 text-xs text-gray-400">Sans carte bancaire.</p>
       </section>
 
-      <section className="bg-gray-50 py-20">
+      <section id="constat" className="bg-gray-50 py-20">
         <div className="mx-auto max-w-3xl px-6">
           <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
             Le constat
@@ -139,7 +141,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section className="py-20">
+      <section id="pourquoi" className="py-20">
         <div className="mx-auto max-w-3xl px-6">
           <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
             Pourquoi ça passe inaperçu
@@ -177,7 +179,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section className="py-20">
+      <section id="detection" className="py-20">
         <div className="mx-auto max-w-4xl px-6">
           <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
             Ce que Nivoy détecte
@@ -195,7 +197,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section className="bg-gray-50 py-20">
+      <section id="exemple" className="bg-gray-50 py-20">
         <div className="mx-auto max-w-2xl px-6">
           <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
             Exemple illustratif
@@ -268,7 +270,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section className="bg-gray-50 py-20">
+      <section id="faq" className="bg-gray-50 py-20">
         <div className="mx-auto max-w-2xl px-6">
           <h2 className="text-center text-2xl font-semibold">Questions fréquentes</h2>
           <div className="mt-10 space-y-6">

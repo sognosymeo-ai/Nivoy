@@ -106,14 +106,35 @@ export default function Accueil() {
             Le constat
           </h2>
           <p className="mt-4 text-center text-2xl font-semibold">
-            Rapprocher un CRA d&apos;une facture, ligne par ligne, à la main, c&apos;est le genre
-            de tâche qu&apos;on repousse toujours.
+            Les sociétés de services déclarent en moyenne 4 à 5 % de chiffre d&apos;affaires
+            jamais facturé.
           </p>
           <p className="mx-auto mt-4 max-w-xl text-center text-gray-600">
-            Sur une mission longue, avec des avenants, des jours off et plusieurs TJM, il est
-            facile de perdre le fil entre ce qui a été réellement travaillé et ce qui a fini par
-            être facturé. Ce n&apos;est pas de la mauvaise foi — c&apos;est juste une vérification
-            fastidieuse que personne n&apos;a le temps de faire systématiquement.
+            Selon les benchmarks du cabinet SPI Research (Service Performance Insight), qui suit
+            ce chiffre depuis plusieurs années sur les sociétés de services professionnels
+            (4,05 % en 2015, 4,3 % en 2016, 4,26 % en 2021, environ 4,5 % sur le benchmark 2026),
+            ce &laquo; revenue leakage &raquo; inclut notamment les erreurs de facturation, les
+            heures ou jours non facturés, et les écarts entre le travail réalisé et la
+            facturation — exactement la catégorie que Nivoy aide à identifier.
+          </p>
+
+          <div className="mx-auto mt-8 grid max-w-md gap-4 sm:grid-cols-2">
+            <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center">
+              <p className="text-3xl font-semibold text-indigo-600">200 k€</p>
+              <p className="mt-1 text-sm text-gray-500">
+                à 4 % de fuite, pour une ESN à 5 M€ de CA annuel
+              </p>
+            </div>
+            <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center">
+              <p className="text-3xl font-semibold text-indigo-600">250 k€</p>
+              <p className="mt-1 text-sm text-gray-500">
+                à 5 % de fuite, pour une ESN à 5 M€ de CA annuel
+              </p>
+            </div>
+          </div>
+          <p className="mt-4 text-center text-xs text-gray-400">
+            Illustration à partir des taux moyens déclarés par le secteur — pas une estimation
+            de vos propres pertes.
           </p>
         </div>
       </section>

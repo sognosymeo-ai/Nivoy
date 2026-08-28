@@ -1,6 +1,15 @@
 // Alias non-ambigus en priorité : "jour" seul est ambigu (peut désigner le nom du jour,
 // ex. "Lundi", dans certains CRA), donc on ne s'y résout qu'en dernier recours.
-const ALIAS_PRIORITAIRES = ["jours", "nbjours", "nbjour", "nombredejours", "joursouvres", "days", "jrs"];
+const ALIAS_PRIORITAIRES = [
+  "jours",
+  "nbjours",
+  "nbjour",
+  "nombredejours",
+  "nombrejours",
+  "joursouvres",
+  "days",
+  "jrs",
+];
 const ALIAS_SECONDAIRES = ["jour", "jr", "j", "d"];
 
 function normaliser(texte: string): string {
@@ -23,10 +32,17 @@ function trouverIndexColonneJours(columns: string[]): number {
   return -1;
 }
 
+function detecterSeparateur(ligneEntete: string): string {
+  const nbPointVirgule = (ligneEntete.match(/;/g) ?? []).length;
+  const nbVirgule = (ligneEntete.match(/,/g) ?? []).length;
+  return nbPointVirgule > nbVirgule ? ";" : ",";
+}
+
 export function parseJoursTravailles(csvContent: string): number {
   const lines = csvContent.trim().split(/\r?\n/).filter((line) => line.trim().length > 0);
   const [header, ...rows] = lines;
-  const columns = header.split(",").map((c) => c.trim());
+  const separateur = detecterSeparateur(header);
+  const columns = header.split(separateur).map((c) => c.trim());
   const joursIndex = trouverIndexColonneJours(columns);
 
   if (joursIndex === -1) {
@@ -34,7 +50,7 @@ export function parseJoursTravailles(csvContent: string): number {
   }
 
   return rows.reduce((total, row) => {
-    const cells = row.split(",");
+    const cells = row.split(separateur);
     const valeur = parseFloat(cells[joursIndex]);
     return total + (Number.isFinite(valeur) ? valeur : 0);
   }, 0);

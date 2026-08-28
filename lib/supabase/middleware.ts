@@ -28,9 +28,9 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const estPageLogin = request.nextUrl.pathname.startsWith("/login");
-  const estRouteAuth = request.nextUrl.pathname.startsWith("/auth");
+  const estRouteProtegee = request.nextUrl.pathname.startsWith("/app");
 
-  if (!user && !estPageLogin && !estRouteAuth) {
+  if (!user && estRouteProtegee) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
@@ -38,7 +38,7 @@ export async function updateSession(request: NextRequest) {
 
   if (user && estPageLogin) {
     const url = request.nextUrl.clone();
-    url.pathname = "/";
+    url.pathname = "/app";
     return NextResponse.redirect(url);
   }
 

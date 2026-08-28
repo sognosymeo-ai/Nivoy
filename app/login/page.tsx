@@ -25,13 +25,13 @@ export default function Login() {
         setEnCours(false);
         return;
       }
-      window.location.href = "/";
+      window.location.href = "/app";
     } else {
       const { error } = await supabase.auth.signUp({
         email,
         password: motDePasse,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/confirm?next=/`,
+          emailRedirectTo: `${window.location.origin}/auth/confirm?next=/app`,
         },
       });
       if (error) {

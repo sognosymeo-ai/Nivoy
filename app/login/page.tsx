@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 export default function Login() {
@@ -46,62 +47,73 @@ export default function Login() {
 
   if (inscriptionReussie) {
     return (
-      <main className="mx-auto max-w-sm p-8">
-        <h1 className="text-xl font-semibold">Vérifie ta boîte mail</h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Un email de confirmation a été envoyé à {email}. Clique sur le lien pour activer ton compte.
-        </p>
+      <main className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
+        <div className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+          <h1 className="text-xl font-semibold">Vérifie ta boîte mail</h1>
+          <p className="mt-2 text-sm text-slate-600">
+            Un email de confirmation a été envoyé à {email}. Clique sur le lien pour activer ton
+            compte.
+          </p>
+        </div>
       </main>
     );
   }
 
   return (
-    <main className="mx-auto max-w-sm p-8">
-      <h1 className="text-xl font-semibold">
-        {mode === "connexion" ? "Connexion" : "Créer un compte"}
-      </h1>
+    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
+      <div className="w-full max-w-sm">
+        <Link href="/" className="mb-8 block text-center text-lg font-semibold">
+          Nivoy
+        </Link>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-sm"
-          />
+        <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+          <h1 className="text-xl font-semibold">
+            {mode === "connexion" ? "Connexion" : "Créer un compte"}
+          </h1>
+
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-700">Email</label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1.5 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700">Mot de passe</label>
+              <input
+                type="password"
+                required
+                minLength={6}
+                value={motDePasse}
+                onChange={(e) => setMotDePasse(e.target.value)}
+                className="mt-1.5 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              />
+            </div>
+
+            {erreur && <p className="text-sm text-red-600">{erreur}</p>}
+
+            <button
+              type="submit"
+              disabled={enCours}
+              className="w-full rounded-full bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:opacity-40"
+            >
+              {enCours ? "..." : mode === "connexion" ? "Se connecter" : "S'inscrire"}
+            </button>
+          </form>
+
+          <button
+            onClick={() => setMode(mode === "connexion" ? "inscription" : "connexion")}
+            className="mt-4 w-full text-center text-sm text-slate-500 underline"
+          >
+            {mode === "connexion" ? "Pas encore de compte ? S'inscrire" : "Déjà un compte ? Se connecter"}
+          </button>
         </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Mot de passe</label>
-          <input
-            type="password"
-            required
-            minLength={6}
-            value={motDePasse}
-            onChange={(e) => setMotDePasse(e.target.value)}
-            className="mt-1 block w-full rounded border border-gray-300 px-3 py-2 text-sm"
-          />
-        </div>
-
-        {erreur && <p className="text-sm text-red-600">{erreur}</p>}
-
-        <button
-          type="submit"
-          disabled={enCours}
-          className="w-full rounded bg-gray-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-40"
-        >
-          {enCours ? "..." : mode === "connexion" ? "Se connecter" : "S'inscrire"}
-        </button>
-      </form>
-
-      <button
-        onClick={() => setMode(mode === "connexion" ? "inscription" : "connexion")}
-        className="mt-4 text-sm text-gray-500 underline"
-      >
-        {mode === "connexion" ? "Pas encore de compte ? S'inscrire" : "Déjà un compte ? Se connecter"}
-      </button>
+      </div>
     </main>
   );
 }

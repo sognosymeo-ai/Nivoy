@@ -6,6 +6,7 @@ const sections = [
   { id: "constat", label: "Le constat" },
   { id: "pourquoi", label: "Pourquoi ça passe inaperçu" },
   { id: "comment-ca-marche", label: "Comment ça marche" },
+  { id: "demo", label: "Voir l'outil" },
   { id: "detection", label: "Ce que Nivoy détecte" },
   { id: "exemple", label: "Exemple illustratif" },
   { id: "tarifs", label: "Tarifs" },
@@ -36,18 +37,30 @@ export default function IndicateurSections() {
   }, []);
 
   return (
-    <div className="fixed left-6 top-1/2 z-40 hidden -translate-y-1/2 flex-col gap-3 lg:flex">
-      {sections.map((section) => (
-        <a
-          key={section.id}
-          href={`#${section.id}`}
-          aria-label={section.label}
-          title={section.label}
-          className={`h-2 w-2 rounded-full transition-colors ${
-            sectionActive === section.id ? "bg-indigo-600" : "bg-gray-300 hover:bg-gray-400"
-          }`}
-        />
-      ))}
+    <div className="fixed left-6 top-1/2 z-40 hidden -translate-y-1/2 flex-col gap-4 xl:flex">
+      {sections.map((section) => {
+        const active = sectionActive === section.id;
+        return (
+          <a
+            key={section.id}
+            href={`#${section.id}`}
+            className="group flex items-center gap-3"
+          >
+            <span
+              className={`h-2 w-2 flex-shrink-0 rounded-full transition-colors ${
+                active ? "bg-indigo-600" : "bg-slate-300 group-hover:bg-slate-400"
+              }`}
+            />
+            <span
+              className={`whitespace-nowrap text-xs transition-colors ${
+                active ? "font-medium text-indigo-600" : "text-slate-400 group-hover:text-slate-600"
+              }`}
+            >
+              {section.label}
+            </span>
+          </a>
+        );
+      })}
     </div>
   );
 }

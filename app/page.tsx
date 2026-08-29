@@ -1,18 +1,7 @@
 import Link from "next/link";
 import IndicateurSections from "@/components/IndicateurSections";
-
-const detections = [
-  {
-    titre: "Écart de jours",
-    description:
-      "Nivoy compare le nombre de jours travaillés (CRA) au nombre de jours facturés. Si vous avez travaillé plus que ce qui a été facturé, l'écart et le montant potentiel sont signalés.",
-  },
-  {
-    titre: "Écart de chiffre d'affaires",
-    description:
-      "Quand votre CRA détaille un montant par ligne, Nivoy le compare au total HT de la facture. Toute différence — dans un sens ou dans l'autre — est signalée pour vérification.",
-  },
-];
+import MockupOutil from "@/components/MockupOutil";
+import DetectionTabs from "@/components/DetectionTabs";
 
 const etapes = [
   {
@@ -138,7 +127,7 @@ export default function Accueil() {
 
       <section className="relative overflow-hidden bg-gradient-to-b from-white via-white to-slate-50">
         <FondHero />
-        <div className="relative mx-auto max-w-3xl px-6 py-28 text-center">
+        <div className="relative mx-auto max-w-3xl px-6 py-32 text-center">
           <span className="inline-block rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
             Pour les ESN facturant en régie
           </span>
@@ -168,7 +157,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section id="constat" className="bg-slate-50 py-24">
+      <section id="constat" className="bg-slate-50 py-28">
         <div className="mx-auto max-w-3xl px-6">
           <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
             Le constat
@@ -209,7 +198,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section id="pourquoi" className="py-24">
+      <section id="pourquoi" className="py-28">
         <div className="mx-auto max-w-3xl px-6">
           <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
             Pourquoi ça passe inaperçu
@@ -226,7 +215,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section id="comment-ca-marche" className="bg-slate-50 py-24">
+      <section id="comment-ca-marche" className="bg-slate-50 py-28">
         <div className="mx-auto max-w-4xl px-6">
           <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
             Comment ça marche
@@ -249,7 +238,26 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section id="detection" className="py-24">
+      <section id="demo" className="py-28">
+        <div className="mx-auto max-w-4xl px-6">
+          <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
+            Voir l&apos;outil
+          </h2>
+          <p className="mt-4 text-center text-3xl font-bold tracking-tight">
+            Un résultat clair, en un coup d&apos;œil
+          </p>
+          <p className="mx-auto mt-4 max-w-xl text-center text-slate-600">
+            Voici à quoi ressemble Nivoy une fois le CRA et la facture importés — reproduction
+            fidèle de l&apos;interface réelle, avec l&apos;exemple de référence.
+          </p>
+
+          <div className="mt-12">
+            <MockupOutil />
+          </div>
+        </div>
+      </section>
+
+      <section id="detection" className="bg-slate-50 py-28">
         <div className="mx-auto max-w-4xl px-6">
           <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
             Ce que Nivoy détecte
@@ -258,21 +266,11 @@ export default function Accueil() {
             Deux vérifications, pas de fausse promesse
           </p>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2">
-            {detections.map((d) => (
-              <div
-                key={d.titre}
-                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
-              >
-                <h3 className="font-semibold">{d.titre}</h3>
-                <p className="mt-2 text-sm text-slate-600">{d.description}</p>
-              </div>
-            ))}
-          </div>
+          <DetectionTabs />
         </div>
       </section>
 
-      <section id="exemple" className="bg-slate-50 py-24">
+      <section id="exemple" className="py-28">
         <div className="mx-auto max-w-2xl px-6">
           <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
             Exemple illustratif
@@ -301,7 +299,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section id="tarifs" className="py-24">
+      <section id="tarifs" className="bg-slate-50 py-28">
         <div className="mx-auto max-w-3xl px-6">
           <h2 className="text-center text-3xl font-bold tracking-tight">Tarifs</h2>
           <p className="mt-2 text-center text-sm text-slate-500">
@@ -309,7 +307,7 @@ export default function Accueil() {
           </p>
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2">
-            <div className="rounded-2xl border border-slate-200 p-8">
+            <div className="rounded-2xl border border-slate-200 bg-white p-8">
               <h3 className="font-semibold">Gratuit</h3>
               <p className="mt-2 text-3xl font-bold">0 €</p>
               <ul className="mt-6 space-y-3 text-sm text-slate-600">
@@ -345,7 +343,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section id="faq" className="bg-slate-50 py-24">
+      <section id="faq" className="py-28">
         <div className="mx-auto max-w-2xl px-6">
           <h2 className="text-center text-3xl font-bold tracking-tight">Questions fréquentes</h2>
           <div className="mt-10 space-y-6">
@@ -359,7 +357,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section className="py-24 text-center">
+      <section className="bg-slate-50 py-28 text-center">
         <h2 className="text-3xl font-bold tracking-tight">
           Vérifiez votre prochaine mission en quelques secondes
         </h2>

@@ -2,6 +2,8 @@ import Link from "next/link";
 import Sommaire from "@/components/Sommaire";
 import MockupOutil from "@/components/MockupOutil";
 import DetectionTabs from "@/components/DetectionTabs";
+import AnimatedNetwork from "@/components/AnimatedNetwork";
+import RevealOnScroll from "@/components/RevealOnScroll";
 import {
   IconUpload,
   IconDocument,
@@ -48,55 +50,11 @@ const faq = [
   },
 ];
 
-const noeuds: [number, number][] = [
-  [120, 80],
-  [300, 170],
-  [520, 90],
-  [680, 220],
-  [260, 360],
-  [480, 400],
-];
-
-const liaisons: [number, number][] = [
-  [0, 1],
-  [1, 2],
-  [1, 4],
-  [2, 3],
-  [4, 5],
-  [5, 3],
-];
-
-function FondHero() {
+function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div className="absolute -left-24 top-10 h-[420px] w-[420px] rounded-full bg-indigo-300/30 blur-[120px]" />
-      <div className="absolute -right-16 bottom-0 h-[320px] w-[320px] rounded-full bg-indigo-200/40 blur-[100px]" />
-      <svg
-        className="absolute inset-0 h-full w-full opacity-70"
-        viewBox="0 0 800 500"
-        fill="none"
-        preserveAspectRatio="xMidYMid slice"
-      >
-        <g stroke="#6366f1" strokeOpacity="0.18">
-          {liaisons.map(([a, b], i) => {
-            const [x1, y1] = noeuds[a];
-            const [x2, y2] = noeuds[b];
-            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />;
-          })}
-        </g>
-        {noeuds.map(([cx, cy], i) => (
-          <circle
-            key={i}
-            cx={cx}
-            cy={cy}
-            r={5}
-            fill="#4f46e5"
-            className="animate-pulse"
-            style={{ animationDelay: `${i * 0.3}s`, animationDuration: "3s" }}
-          />
-        ))}
-      </svg>
-    </div>
+    <p className="text-center text-xs font-semibold uppercase tracking-widest text-indigo-600">
+      {children}
+    </p>
   );
 }
 
@@ -130,7 +88,11 @@ export default function Accueil() {
       </nav>
 
       <section className="relative overflow-hidden bg-gradient-to-b from-indigo-50 via-white to-slate-100">
-        <FondHero />
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -left-24 top-10 h-[420px] w-[420px] rounded-full bg-indigo-300/30 blur-[120px]" />
+          <div className="absolute -right-16 bottom-0 h-[320px] w-[320px] rounded-full bg-indigo-200/40 blur-[100px]" />
+          <AnimatedNetwork />
+        </div>
         <div className="relative mx-auto max-w-3xl px-6 py-28 text-center">
           <span className="inline-block rounded-full border border-indigo-200 bg-white px-4 py-1.5 text-xs font-medium text-indigo-700 shadow-sm">
             Pour les ESN facturant en régie
@@ -145,13 +107,13 @@ export default function Accueil() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/login"
-              className="rounded-full bg-indigo-600 px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500"
+              className="rounded-full bg-indigo-600 px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-indigo-500 hover:shadow-md"
             >
               Commencer gratuitement
             </Link>
             <a
               href="#comment"
-              className="rounded-full border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              className="rounded-full border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-md"
             >
               Voir comment ça marche
             </a>
@@ -161,8 +123,9 @@ export default function Accueil() {
       </section>
 
       <section id="probleme" className="bg-slate-50 py-24">
-        <div className="mx-auto max-w-3xl px-6">
-          <h2 className="text-center text-2xl font-bold tracking-tight sm:text-3xl">
+        <RevealOnScroll className="mx-auto max-w-3xl px-6">
+          <Eyebrow>Le constat</Eyebrow>
+          <h2 className="mt-2 text-center text-2xl font-bold tracking-tight sm:text-3xl">
             4 à 5&nbsp;% du chiffre d&apos;affaires jamais facturé
             <sup className="text-sm font-normal text-indigo-600">1</sup>
           </h2>
@@ -172,39 +135,82 @@ export default function Accueil() {
           </p>
 
           <div className="mx-auto mt-8 grid max-w-md gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl bg-indigo-600 p-6 text-center text-white">
+            <div className="rounded-2xl bg-indigo-600 p-6 text-center text-white transition hover:-translate-y-1 hover:shadow-lg">
               <p className="text-3xl font-bold">200&nbsp;k€</p>
               <p className="mt-1 text-sm text-indigo-100">à 4&nbsp;% de fuite, ESN à 5&nbsp;M€ de CA</p>
             </div>
-            <div className="rounded-2xl bg-indigo-600 p-6 text-center text-white">
+            <div className="rounded-2xl bg-indigo-600 p-6 text-center text-white transition hover:-translate-y-1 hover:shadow-lg">
               <p className="text-3xl font-bold">250&nbsp;k€</p>
               <p className="mt-1 text-sm text-indigo-100">à 5&nbsp;% de fuite, ESN à 5&nbsp;M€ de CA</p>
             </div>
           </div>
+
+          <div className="mx-auto mt-6 grid max-w-2xl overflow-hidden rounded-2xl border border-slate-200 sm:grid-cols-2">
+            <div className="border-b border-slate-200 p-6 text-center sm:border-b-0 sm:border-r">
+              <p className="text-xs font-semibold uppercase tracking-wide text-red-500">Sans Nivoy</p>
+              <p className="mt-2 text-sm text-slate-600">
+                L&apos;écart reste invisible jusqu&apos;au bilan annuel — si quelqu&apos;un le
+                remarque.
+              </p>
+            </div>
+            <div className="bg-indigo-50/60 p-6 text-center">
+              <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600">Avec Nivoy</p>
+              <p className="mt-2 text-sm text-slate-700">
+                L&apos;écart est signalé avant l&apos;envoi de la facture, pendant qu&apos;il est
+                encore temps de vérifier.
+              </p>
+            </div>
+          </div>
+
           <p className="mx-auto mt-6 max-w-xl text-center text-xs text-slate-400">
             1&nbsp;Benchmarks SPI Research (Service Performance Insight) sur les sociétés de
             services professionnels : 4,05&nbsp;% en 2015, 4,3&nbsp;% en 2016, 4,26&nbsp;% en 2021,
             ~4,5&nbsp;% en 2026. Illustration à partir des moyennes du secteur, pas une estimation
             de vos pertes.
           </p>
-        </div>
+        </RevealOnScroll>
       </section>
 
       <section id="comment" className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
-          <h2 className="text-center text-2xl font-bold tracking-tight sm:text-3xl">
+        <RevealOnScroll className="mx-auto max-w-4xl px-6">
+          <Eyebrow>La méthode</Eyebrow>
+          <h2 className="mt-2 text-center text-2xl font-bold tracking-tight sm:text-3xl">
             Trois étapes, un résultat net
           </h2>
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
-            {etapes.map((etape) => (
-              <div key={etape.titre} className="rounded-2xl bg-slate-50 p-5">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600 text-white">
-                  <etape.icon className="h-5 w-5" />
+          <div className="mt-10 grid grid-cols-1 items-stretch gap-4 sm:grid-cols-[1fr_auto_1fr_auto_1fr]">
+            {etapes.flatMap((etape, i) => {
+              const derniere = i === etapes.length - 1;
+              const carte = (
+                <div
+                  key={`carte-${etape.titre}`}
+                  className={`relative overflow-hidden rounded-2xl border p-6 transition hover:-translate-y-1 hover:shadow-lg ${
+                    derniere ? "border-indigo-200 bg-indigo-50/60 shadow-md" : "border-slate-200 bg-white"
+                  }`}
+                >
+                  <span className="pointer-events-none absolute right-4 top-2 text-4xl font-bold text-slate-100">
+                    {`0${i + 1}`}
+                  </span>
+                  <div
+                    className={`relative flex h-10 w-10 items-center justify-center rounded-xl ${
+                      derniere ? "bg-indigo-600 text-white" : "bg-indigo-50 text-indigo-600"
+                    }`}
+                  >
+                    <etape.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="relative mt-4 font-semibold">{etape.titre}</h3>
+                  <p className="relative mt-1 text-sm text-slate-600">{etape.description}</p>
                 </div>
-                <h3 className="mt-3 font-semibold">{etape.titre}</h3>
-                <p className="mt-1 text-sm text-slate-600">{etape.description}</p>
-              </div>
-            ))}
+              );
+              if (derniere) return [carte];
+              return [
+                carte,
+                <div key={`fleche-${i}`} className="hidden items-center justify-center sm:flex">
+                  <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                    →
+                  </span>
+                </div>,
+              ];
+            })}
           </div>
           <p className="mt-10 text-center text-sm text-slate-500">
             Aperçu fidèle du résultat, avec l&apos;exemple de référence :
@@ -212,27 +218,29 @@ export default function Accueil() {
           <div className="mt-4">
             <MockupOutil />
           </div>
-        </div>
+        </RevealOnScroll>
       </section>
 
       <section id="detection" className="bg-slate-50 py-24">
-        <div className="mx-auto max-w-4xl px-6">
-          <h2 className="text-center text-2xl font-bold tracking-tight sm:text-3xl">
+        <RevealOnScroll className="mx-auto max-w-4xl px-6">
+          <Eyebrow>La vérification</Eyebrow>
+          <h2 className="mt-2 text-center text-2xl font-bold tracking-tight sm:text-3xl">
             Deux vérifications, aucune promesse en l&apos;air
           </h2>
           <div className="mt-10">
             <DetectionTabs />
           </div>
-        </div>
+        </RevealOnScroll>
       </section>
 
       <section id="tarifs" className="py-24">
-        <div className="mx-auto max-w-3xl px-6">
-          <h2 className="text-center text-2xl font-bold tracking-tight sm:text-3xl">Un tarif simple</h2>
+        <RevealOnScroll className="mx-auto max-w-3xl px-6">
+          <Eyebrow>Les tarifs</Eyebrow>
+          <h2 className="mt-2 text-center text-2xl font-bold tracking-tight sm:text-3xl">Un tarif simple</h2>
           <p className="mt-1 text-center text-sm text-slate-500">Tarifs indicatifs.</p>
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
-            <div className="rounded-2xl border border-slate-200 p-6">
+            <div className="rounded-2xl border border-slate-200 p-6 transition hover:-translate-y-1 hover:shadow-lg">
               <h3 className="font-semibold">Gratuit</h3>
               <p className="mt-2 text-3xl font-bold">0 €</p>
               <ul className="mt-6 space-y-3 text-sm text-slate-600">
@@ -251,7 +259,7 @@ export default function Accueil() {
               </Link>
             </div>
 
-            <div className="rounded-2xl bg-indigo-600 p-6 text-white shadow-lg shadow-indigo-200">
+            <div className="rounded-2xl bg-indigo-600 p-6 text-white shadow-lg shadow-indigo-200 transition hover:-translate-y-1 hover:shadow-xl">
               <h3 className="font-semibold">Pro</h3>
               <p className="mt-2 text-3xl font-bold">29 € / mois</p>
               <ul className="mt-6 space-y-3 text-sm text-indigo-100">
@@ -272,15 +280,19 @@ export default function Accueil() {
               </Link>
             </div>
           </div>
-        </div>
+        </RevealOnScroll>
       </section>
 
       <section id="faq" className="bg-slate-50 py-24">
-        <div className="mx-auto max-w-2xl px-6">
-          <h2 className="text-center text-2xl font-bold tracking-tight sm:text-3xl">Questions fréquentes</h2>
+        <RevealOnScroll className="mx-auto max-w-2xl px-6">
+          <Eyebrow>Besoin d&apos;aide ?</Eyebrow>
+          <h2 className="mt-2 text-center text-2xl font-bold tracking-tight sm:text-3xl">Questions fréquentes</h2>
           <div className="mt-10 space-y-5">
             {faq.map((item) => (
-              <div key={item.question} className="flex items-start gap-3 rounded-2xl bg-white p-5 shadow-sm">
+              <div
+                key={item.question}
+                className="flex items-start gap-3 rounded-2xl bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              >
                 <IconQuestion className="mt-0.5 h-5 w-5 flex-shrink-0 text-indigo-400" />
                 <div>
                   <h3 className="font-medium">{item.question}</h3>
@@ -289,7 +301,7 @@ export default function Accueil() {
               </div>
             ))}
           </div>
-        </div>
+        </RevealOnScroll>
       </section>
 
       <section className="bg-indigo-600 py-20 text-center text-white">
@@ -298,7 +310,7 @@ export default function Accueil() {
         <div className="mt-8">
           <Link
             href="/login"
-            className="rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-indigo-600 shadow-sm transition hover:bg-indigo-50"
+            className="rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-indigo-600 shadow-sm transition hover:-translate-y-0.5 hover:bg-indigo-50 hover:shadow-md"
           >
             Commencer gratuitement
           </Link>

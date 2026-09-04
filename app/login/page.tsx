@@ -12,6 +12,20 @@ export default function Login() {
   const [erreur, setErreur] = useState<string | null>(null);
   const [inscriptionReussie, setInscriptionReussie] = useState(false);
 
+  async function handleGoogle() {
+    setErreur(null);
+    const supabase = createClient();
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/confirm?next=/app`,
+      },
+    });
+    if (error) {
+      setErreur(error.message);
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErreur(null);
@@ -71,7 +85,39 @@ export default function Login() {
             {mode === "connexion" ? "Connexion" : "Créer un compte"}
           </h1>
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          <button
+            type="button"
+            onClick={handleGoogle}
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4">
+              <path
+                fill="#4285F4"
+                d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.64h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.87c2.27-2.09 3.58-5.17 3.58-8.82Z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 24c3.24 0 5.95-1.07 7.94-2.91l-3.87-3c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.28v3.1A12 12 0 0 0 12 24Z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.27 14.28A7.2 7.2 0 0 1 4.89 12c0-.79.14-1.56.38-2.28v-3.1H1.28A12 12 0 0 0 0 12c0 1.94.46 3.77 1.28 5.38l3.99-3.1Z"
+              />
+              <path
+                fill="#EA4335"
+                d="M12 4.77c1.76 0 3.34.6 4.58 1.79l3.44-3.44C17.94 1.19 15.24 0 12 0 7.31 0 3.26 2.69 1.28 6.62l3.99 3.1C6.22 6.88 8.87 4.77 12 4.77Z"
+              />
+            </svg>
+            Continuer avec Google
+          </button>
+
+          <div className="my-5 flex items-center gap-3">
+            <div className="h-px flex-1 bg-slate-200" />
+            <span className="text-xs text-slate-400">ou</span>
+            <div className="h-px flex-1 bg-slate-200" />
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-slate-700">Email</label>
               <input

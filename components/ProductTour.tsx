@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export interface Onglet {
   id: string;
@@ -12,11 +12,29 @@ export interface Onglet {
 export default function ProductTour({ onglets }: { onglets: Onglet[] }) {
   const [actif, setActif] = useState(onglets[0].id);
   const panneau = onglets.find((o) => o.id === actif)!;
+  const dernierScroll = useRef(0);
+
+  function handleWheel(e: React.WheelEvent) {
+    const maintenant = Date.now();
+    if (maintenant - dernierScroll.current < 400) return;
+    if (Math.abs(e.deltaY) < 10) return;
+
+    e.preventDefault();
+    dernierScroll.current = maintenant;
+
+    const indexActuel = onglets.findIndex((o) => o.id === actif);
+    const direction = e.deltaY > 0 ? 1 : -1;
+    const prochainIndex = Math.min(Math.max(indexActuel + direction, 0), onglets.length - 1);
+    setActif(onglets[prochainIndex].id);
+  }
 
   return (
     <div className="mx-auto max-w-5xl px-6">
       <div className="grid gap-6 lg:grid-cols-[240px_1fr] lg:gap-10">
-        <nav className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-2 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0 lg:pb-0">
+        <nav
+          onWheel={handleWheel}
+          className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-2 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0 lg:pb-0"
+        >
           {onglets.map((o) => {
             const estActif = o.id === actif;
             return (

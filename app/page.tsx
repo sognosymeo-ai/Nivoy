@@ -2,20 +2,34 @@ import Link from "next/link";
 import IndicateurSections from "@/components/IndicateurSections";
 import MockupOutil from "@/components/MockupOutil";
 import DetectionTabs from "@/components/DetectionTabs";
+import {
+  IconUpload,
+  IconDocument,
+  IconSearch,
+  IconCheckCircle,
+  IconQuestion,
+  IconScale,
+  IconEye,
+  IconSparkle,
+  IconTag,
+} from "@/components/Icons";
 
 const etapes = [
   {
     numero: "1",
+    icon: IconUpload,
     titre: "Importer le CRA",
     description: "Le compte-rendu d'activité au format CSV, tel que vous le suivez déjà.",
   },
   {
     numero: "2",
+    icon: IconDocument,
     titre: "Importer la facture",
     description: "Le PDF de la facture envoyée au client. Nivoy en extrait les montants clés.",
   },
   {
     numero: "3",
+    icon: IconSearch,
     titre: "Vérifier le résultat",
     description: "Les écarts potentiels sont affichés avec le détail, prêts à être vérifiés.",
   },
@@ -96,6 +110,33 @@ function FondHero() {
   );
 }
 
+function Eyebrow({
+  icon: Icon,
+  children,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-center justify-center gap-2">
+      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100">
+        <Icon className="h-4 w-4 text-indigo-600" />
+      </span>
+      <span className="text-sm font-semibold uppercase tracking-wide text-indigo-600">
+        {children}
+      </span>
+    </div>
+  );
+}
+
+function Diviseur() {
+  return (
+    <div className="relative mx-auto h-px w-full max-w-5xl bg-gradient-to-r from-transparent via-slate-200 to-transparent">
+      <span className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-300" />
+    </div>
+  );
+}
+
 export default function Accueil() {
   return (
     <main className="bg-white text-slate-900">
@@ -135,9 +176,8 @@ export default function Accueil() {
             Le CRA et la facture racontent-ils vraiment la même histoire&nbsp;?
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-lg text-slate-600">
-            Nivoy compare automatiquement les jours travaillés et le chiffre d&apos;affaires
-            facturé, et signale les écarts potentiels à vérifier — avant qu&apos;ils ne passent
-            inaperçus.
+            Importez votre CRA et votre facture. Nivoy détecte en quelques secondes les écarts à
+            vérifier avant l&apos;envoi.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
@@ -159,9 +199,7 @@ export default function Accueil() {
 
       <section id="constat" className="bg-slate-50 py-28">
         <div className="mx-auto max-w-3xl px-6">
-          <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
-            Le constat
-          </h2>
+          <Eyebrow icon={IconScale}>Le constat</Eyebrow>
           <p className="mt-4 text-center text-3xl font-bold tracking-tight">
             Les sociétés de services déclarent en moyenne 4 à 5&nbsp;% de chiffre d&apos;affaires
             jamais facturé<sup className="text-base font-normal text-indigo-600">1</sup>.
@@ -198,11 +236,11 @@ export default function Accueil() {
         </div>
       </section>
 
+      <Diviseur />
+
       <section id="pourquoi" className="py-28">
         <div className="mx-auto max-w-3xl px-6">
-          <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
-            Pourquoi ça passe inaperçu
-          </h2>
+          <Eyebrow icon={IconQuestion}>Pourquoi ça passe inaperçu</Eyebrow>
           <p className="mt-4 text-center text-3xl font-bold tracking-tight">
             Un écart d&apos;un ou deux jours ne saute pas aux yeux. Répété chaque mois, il pèse.
           </p>
@@ -215,22 +253,27 @@ export default function Accueil() {
         </div>
       </section>
 
+      <Diviseur />
+
       <section id="comment-ca-marche" className="bg-slate-50 py-28">
         <div className="mx-auto max-w-4xl px-6">
-          <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
-            Comment ça marche
-          </h2>
+          <Eyebrow icon={IconSparkle}>Comment ça marche</Eyebrow>
           <p className="mt-4 text-center text-3xl font-bold tracking-tight">
             Trois étapes, quelques secondes
           </p>
 
           <div className="mt-14 grid gap-10 sm:grid-cols-3">
             {etapes.map((etape) => (
-              <div key={etape.numero} className="text-center">
-                <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-indigo-600 text-sm font-semibold text-white shadow-sm">
-                  {etape.numero}
+              <div
+                key={etape.numero}
+                className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm"
+              >
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-indigo-600 text-white shadow-sm">
+                  <etape.icon className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 font-semibold">{etape.titre}</h3>
+                <h3 className="mt-4 font-semibold">
+                  {etape.numero}. {etape.titre}
+                </h3>
                 <p className="mt-2 text-sm text-slate-600">{etape.description}</p>
               </div>
             ))}
@@ -238,11 +281,11 @@ export default function Accueil() {
         </div>
       </section>
 
+      <Diviseur />
+
       <section id="demo" className="py-28">
         <div className="mx-auto max-w-4xl px-6">
-          <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
-            Voir l&apos;outil
-          </h2>
+          <Eyebrow icon={IconEye}>Voir l&apos;outil</Eyebrow>
           <p className="mt-4 text-center text-3xl font-bold tracking-tight">
             Un résultat clair, en un coup d&apos;œil
           </p>
@@ -257,11 +300,11 @@ export default function Accueil() {
         </div>
       </section>
 
+      <Diviseur />
+
       <section id="detection" className="bg-slate-50 py-28">
         <div className="mx-auto max-w-4xl px-6">
-          <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
-            Ce que Nivoy détecte
-          </h2>
+          <Eyebrow icon={IconSearch}>Ce que Nivoy détecte</Eyebrow>
           <p className="mt-4 text-center text-3xl font-bold tracking-tight">
             Deux vérifications, pas de fausse promesse
           </p>
@@ -270,11 +313,11 @@ export default function Accueil() {
         </div>
       </section>
 
+      <Diviseur />
+
       <section id="exemple" className="py-28">
         <div className="mx-auto max-w-2xl px-6">
-          <h2 className="text-center text-sm font-semibold uppercase tracking-wide text-indigo-600">
-            Exemple illustratif
-          </h2>
+          <Eyebrow icon={IconDocument}>Exemple illustratif</Eyebrow>
           <p className="mt-4 text-center text-3xl font-bold tracking-tight">
             23 jours travaillés, 20 jours facturés
           </p>
@@ -299,9 +342,11 @@ export default function Accueil() {
         </div>
       </section>
 
+      <Diviseur />
+
       <section id="tarifs" className="bg-slate-50 py-28">
         <div className="mx-auto max-w-3xl px-6">
-          <h2 className="text-center text-3xl font-bold tracking-tight">Tarifs</h2>
+          <Eyebrow icon={IconTag}>Tarifs</Eyebrow>
           <p className="mt-2 text-center text-sm text-slate-500">
             Tarifs indicatifs, susceptibles d&apos;évoluer.
           </p>
@@ -311,9 +356,14 @@ export default function Accueil() {
               <h3 className="font-semibold">Gratuit</h3>
               <p className="mt-2 text-3xl font-bold">0 €</p>
               <ul className="mt-6 space-y-3 text-sm text-slate-600">
-                <li>3 analyses par mois</li>
-                <li>Détection des écarts de jours</li>
-                <li>Détection des écarts de chiffre d&apos;affaires</li>
+                {["3 analyses par mois", "Détection des écarts de jours", "Détection des écarts de chiffre d'affaires"].map(
+                  (item) => (
+                    <li key={item} className="flex items-center gap-2">
+                      <IconCheckCircle className="h-4 w-4 flex-shrink-0 text-indigo-600" />
+                      <span>{item}</span>
+                    </li>
+                  )
+                )}
               </ul>
               <Link
                 href="/login"
@@ -327,10 +377,17 @@ export default function Accueil() {
               <h3 className="font-semibold">Pro</h3>
               <p className="mt-2 text-3xl font-bold">29 € / mois</p>
               <ul className="mt-6 space-y-3 text-sm text-slate-600">
-                <li>Analyses illimitées</li>
-                <li>Détection des écarts de jours</li>
-                <li>Détection des écarts de chiffre d&apos;affaires</li>
-                <li>Support par email</li>
+                {[
+                  "Analyses illimitées",
+                  "Détection des écarts de jours",
+                  "Détection des écarts de chiffre d'affaires",
+                  "Support par email",
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-2">
+                    <IconCheckCircle className="h-4 w-4 flex-shrink-0 text-indigo-600" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
               <Link
                 href="/login"
@@ -343,14 +400,21 @@ export default function Accueil() {
         </div>
       </section>
 
+      <Diviseur />
+
       <section id="faq" className="py-28">
         <div className="mx-auto max-w-2xl px-6">
-          <h2 className="text-center text-3xl font-bold tracking-tight">Questions fréquentes</h2>
-          <div className="mt-10 space-y-6">
+          <Eyebrow icon={IconQuestion}>Questions fréquentes</Eyebrow>
+          <div className="mt-10 space-y-4">
             {faq.map((item) => (
               <div key={item.question} className="rounded-2xl border border-slate-200 bg-white p-6">
-                <h3 className="font-medium">{item.question}</h3>
-                <p className="mt-1 text-sm text-slate-600">{item.reponse}</p>
+                <div className="flex items-start gap-3">
+                  <IconQuestion className="mt-0.5 h-5 w-5 flex-shrink-0 text-indigo-400" />
+                  <div>
+                    <h3 className="font-medium">{item.question}</h3>
+                    <p className="mt-1 text-sm text-slate-600">{item.reponse}</p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

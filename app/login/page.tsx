@@ -61,7 +61,7 @@ export default function Login() {
 
   if (inscriptionReussie) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
+      <main id="contenu" className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
         <div className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
           <h1 className="text-xl font-semibold">Vérifie ta boîte mail</h1>
           <p className="mt-2 text-sm text-slate-600">
@@ -74,7 +74,7 @@ export default function Login() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
+    <main id="contenu" className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
       <div className="w-full max-w-sm">
         <Link href="/" className="mb-8 block text-center text-lg font-semibold">
           Nivoy
@@ -88,7 +88,7 @@ export default function Login() {
           <button
             type="button"
             onClick={handleGoogle}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
           >
             <svg viewBox="0 0 24 24" className="h-4 w-4">
               <path
@@ -146,15 +146,24 @@ export default function Login() {
             <button
               type="submit"
               disabled={enCours}
-              className="w-full rounded-full bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:opacity-40"
+              className="w-full rounded-full bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:opacity-40"
             >
               {enCours ? "..." : mode === "connexion" ? "Se connecter" : "S'inscrire"}
             </button>
           </form>
 
+          {mode === "connexion" && (
+            <Link
+              href="/mot-de-passe-oublie"
+              className="mt-4 block rounded text-center text-sm text-slate-500 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+            >
+              Mot de passe oublié ?
+            </Link>
+          )}
+
           <button
             onClick={() => setMode(mode === "connexion" ? "inscription" : "connexion")}
-            className="mt-4 w-full text-center text-sm text-slate-500 underline"
+            className="mt-4 w-full rounded text-center text-sm text-slate-500 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
           >
             {mode === "connexion" ? "Pas encore de compte ? S'inscrire" : "Déjà un compte ? Se connecter"}
           </button>

@@ -27,8 +27,9 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const estPageLogin = request.nextUrl.pathname.startsWith("/login");
-  const estRouteProtegee = request.nextUrl.pathname.startsWith("/app");
+  const { pathname } = request.nextUrl;
+  const estPageLogin = pathname === "/login" || pathname.startsWith("/login/");
+  const estRouteProtegee = pathname === "/app" || pathname.startsWith("/app/");
 
   if (!user && estRouteProtegee) {
     const url = request.nextUrl.clone();

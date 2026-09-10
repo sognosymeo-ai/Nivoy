@@ -4,6 +4,7 @@ import MockupOutil from "@/components/MockupOutil";
 import DetectionTabs from "@/components/DetectionTabs";
 import AnimatedNetwork from "@/components/AnimatedNetwork";
 import RevealOnScroll from "@/components/RevealOnScroll";
+import MobileMenu from "@/components/MobileMenu";
 import {
   IconUpload,
   IconDocument,
@@ -60,29 +61,39 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 
 export default function Accueil() {
   return (
-    <main className="bg-white text-slate-900">
+    <main id="contenu" className="bg-white text-slate-900">
       <Sommaire />
 
       <nav className="sticky top-0 z-50 border-b border-slate-100 bg-white/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
+        <div className="relative mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
           <span className="flex-shrink-0 text-lg font-semibold">Nivoy</span>
           <div className="flex items-center gap-4 text-sm sm:gap-6">
-            <a href="#tarifs" className="hidden text-slate-600 hover:text-slate-900 sm:inline">
+            <a
+              href="#tarifs"
+              className="hidden rounded text-slate-600 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 sm:inline"
+            >
               Tarifs
             </a>
-            <a href="#faq" className="hidden text-slate-600 hover:text-slate-900 sm:inline">
+            <a
+              href="#faq"
+              className="hidden rounded text-slate-600 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 sm:inline"
+            >
               FAQ
             </a>
-            <Link href="/login" className="hidden text-slate-600 hover:text-slate-900 sm:inline">
+            <Link
+              href="/login"
+              className="hidden rounded text-slate-600 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 sm:inline"
+            >
               Se connecter
             </Link>
             <Link
               href="/login"
-              className="whitespace-nowrap rounded-full bg-indigo-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-indigo-500 sm:px-4"
+              className="whitespace-nowrap rounded-full bg-indigo-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:px-4"
             >
               <span className="sm:hidden">Commencer</span>
               <span className="hidden sm:inline">Commencer gratuitement</span>
             </Link>
+            <MobileMenu />
           </div>
         </div>
       </nav>
@@ -107,13 +118,13 @@ export default function Accueil() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/login"
-              className="rounded-full bg-indigo-600 px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-indigo-500 hover:shadow-md"
+              className="rounded-full bg-indigo-600 px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-indigo-500 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
             >
               Commencer gratuitement
             </Link>
             <a
               href="#comment"
-              className="rounded-full border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-md"
+              className="rounded-full border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
             >
               Voir comment ça marche
             </a>
@@ -122,7 +133,7 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section id="probleme" className="bg-slate-50 py-24">
+      <section id="probleme" className="scroll-mt-20 bg-slate-50 py-24">
         <RevealOnScroll className="mx-auto max-w-3xl px-6">
           <Eyebrow>Le constat</Eyebrow>
           <h2 className="mt-2 text-center text-2xl font-bold tracking-tight sm:text-3xl">
@@ -171,7 +182,7 @@ export default function Accueil() {
         </RevealOnScroll>
       </section>
 
-      <section id="comment" className="py-24">
+      <section id="comment" className="scroll-mt-20 py-24">
         <RevealOnScroll className="mx-auto max-w-4xl px-6">
           <Eyebrow>La méthode</Eyebrow>
           <h2 className="mt-2 text-center text-2xl font-bold tracking-tight sm:text-3xl">
@@ -187,10 +198,14 @@ export default function Accueil() {
                     derniere ? "border-indigo-200 bg-indigo-50/60 shadow-md" : "border-slate-200 bg-white"
                   }`}
                 >
-                  <span className="pointer-events-none absolute right-4 top-2 text-4xl font-bold text-slate-100">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute right-4 top-2 text-4xl font-bold text-slate-100"
+                  >
                     {`0${i + 1}`}
                   </span>
                   <div
+                    aria-hidden="true"
                     className={`relative flex h-10 w-10 items-center justify-center rounded-xl ${
                       derniere ? "bg-indigo-600 text-white" : "bg-indigo-50 text-indigo-600"
                     }`}
@@ -204,7 +219,11 @@ export default function Accueil() {
               if (derniere) return [carte];
               return [
                 carte,
-                <div key={`fleche-${i}`} className="hidden items-center justify-center sm:flex">
+                <div
+                  key={`fleche-${i}`}
+                  aria-hidden="true"
+                  className="hidden items-center justify-center sm:flex"
+                >
                   <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-400">
                     →
                   </span>
@@ -221,7 +240,7 @@ export default function Accueil() {
         </RevealOnScroll>
       </section>
 
-      <section id="detection" className="bg-slate-50 py-24">
+      <section id="detection" className="scroll-mt-20 bg-slate-50 py-24">
         <RevealOnScroll className="mx-auto max-w-4xl px-6">
           <Eyebrow>La vérification</Eyebrow>
           <h2 className="mt-2 text-center text-2xl font-bold tracking-tight sm:text-3xl">
@@ -233,7 +252,7 @@ export default function Accueil() {
         </RevealOnScroll>
       </section>
 
-      <section id="tarifs" className="py-24">
+      <section id="tarifs" className="scroll-mt-20 py-24">
         <RevealOnScroll className="mx-auto max-w-3xl px-6">
           <Eyebrow>Les tarifs</Eyebrow>
           <h2 className="mt-2 text-center text-2xl font-bold tracking-tight sm:text-3xl">Un tarif simple</h2>
@@ -246,14 +265,14 @@ export default function Accueil() {
               <ul className="mt-6 space-y-3 text-sm text-slate-600">
                 {["3 analyses par mois", "Écart de jours", "Écart de chiffre d'affaires"].map((item) => (
                   <li key={item} className="flex items-center gap-2">
-                    <IconCheckCircle className="h-4 w-4 flex-shrink-0 text-indigo-600" />
+                    <IconCheckCircle aria-hidden="true" className="h-4 w-4 flex-shrink-0 text-indigo-600" />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
               <Link
                 href="/login"
-                className="mt-8 block rounded-full border border-slate-900 px-4 py-2.5 text-center text-sm font-semibold hover:bg-slate-50"
+                className="mt-8 block rounded-full border border-slate-900 px-4 py-2.5 text-center text-sm font-semibold hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
               >
                 Commencer
               </Link>
@@ -266,7 +285,7 @@ export default function Accueil() {
                 {["Analyses illimitées", "Écart de jours", "Écart de chiffre d'affaires", "Support par email"].map(
                   (item) => (
                     <li key={item} className="flex items-center gap-2">
-                      <IconCheckCircle className="h-4 w-4 flex-shrink-0 text-white" />
+                      <IconCheckCircle aria-hidden="true" className="h-4 w-4 flex-shrink-0 text-white" />
                       <span>{item}</span>
                     </li>
                   )
@@ -274,7 +293,7 @@ export default function Accueil() {
               </ul>
               <Link
                 href="/login"
-                className="mt-8 block rounded-full bg-white px-4 py-2.5 text-center text-sm font-semibold text-indigo-600 hover:bg-indigo-50"
+                className="mt-8 block rounded-full bg-white px-4 py-2.5 text-center text-sm font-semibold text-indigo-600 hover:bg-indigo-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-600"
               >
                 Commencer
               </Link>
@@ -283,7 +302,7 @@ export default function Accueil() {
         </RevealOnScroll>
       </section>
 
-      <section id="faq" className="bg-slate-50 py-24">
+      <section id="faq" className="scroll-mt-20 bg-slate-50 py-24">
         <RevealOnScroll className="mx-auto max-w-2xl px-6">
           <Eyebrow>Besoin d&apos;aide ?</Eyebrow>
           <h2 className="mt-2 text-center text-2xl font-bold tracking-tight sm:text-3xl">Questions fréquentes</h2>
@@ -293,7 +312,7 @@ export default function Accueil() {
                 key={item.question}
                 className="flex items-start gap-3 rounded-2xl bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
               >
-                <IconQuestion className="mt-0.5 h-5 w-5 flex-shrink-0 text-indigo-400" />
+                <IconQuestion aria-hidden="true" className="mt-0.5 h-5 w-5 flex-shrink-0 text-indigo-400" />
                 <div>
                   <h3 className="font-medium">{item.question}</h3>
                   <p className="mt-1 text-sm text-slate-600">{item.reponse}</p>
@@ -310,15 +329,40 @@ export default function Accueil() {
         <div className="mt-8">
           <Link
             href="/login"
-            className="rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-indigo-600 shadow-sm transition hover:-translate-y-0.5 hover:bg-indigo-50 hover:shadow-md"
+            className="rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-indigo-600 shadow-sm transition hover:-translate-y-0.5 hover:bg-indigo-50 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-600"
           >
             Commencer gratuitement
           </Link>
         </div>
       </section>
 
-      <footer className="border-t border-slate-100 py-10">
-        <div className="mx-auto max-w-5xl px-6 text-center text-xs text-slate-400">
+      <footer className="border-t border-slate-100 py-12">
+        <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 px-6 text-center sm:flex-row sm:items-start sm:justify-between sm:text-left">
+          <div>
+            <span className="text-lg font-semibold">Nivoy</span>
+            <p className="mt-2 max-w-xs text-sm text-slate-500">
+              La vérification des écarts CRA / facture pour les ESN facturant en régie.
+            </p>
+          </div>
+          <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-slate-500 sm:justify-start">
+            <a href="#probleme" className="rounded hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+              Le constat
+            </a>
+            <a href="#comment" className="rounded hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+              Comment ça marche
+            </a>
+            <a href="#tarifs" className="rounded hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+              Tarifs
+            </a>
+            <a href="#faq" className="rounded hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+              FAQ
+            </a>
+            <Link href="/login" className="rounded hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+              Se connecter
+            </Link>
+          </nav>
+        </div>
+        <div className="mx-auto mt-8 max-w-5xl border-t border-slate-100 px-6 pt-6 text-center text-xs text-slate-400">
           © {new Date().getFullYear()} Nivoy
         </div>
       </footer>
